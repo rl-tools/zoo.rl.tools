@@ -18,7 +18,7 @@
                 if (!response.ok) {
                     throw new Error("HTTP error " + response.status);
                 }
-                response.text()
+                return response.text()
             })
             .then(text => {
                 const lastUpdate = document.getElementById('lastUpdate');
