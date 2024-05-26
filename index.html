@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trajectory Player</title>
+    <link rel="stylesheet" href="index.css">
+    <script type="module">
+        const experiments_stub = "experiments/"
+
+        import { Explorer } from "./rl-tools/static/extrack_ui/Explorer.js";
+        const explorer = new Explorer(experiments_stub);
+        const explorerContainer = document.getElementById('explorerContainer');
+        explorerContainer.appendChild(explorer.getContainer());
+
+
+    </script>
+</head>
+<body>
+    <div id="explorerContainer"></div>
+</body>
+</html>
+

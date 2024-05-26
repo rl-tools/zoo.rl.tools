@@ -1,0 +1,8 @@
+[submodule "experiments"]
+	path = experiments
+	url = https://github.com/rl-tools/zoo-blob.git
+	branch = main
+[submodule "rl-tools"]
+	path = rl-tools
+	url = https://github.com/rl-tools/rl-tools.git
+	branch = master
