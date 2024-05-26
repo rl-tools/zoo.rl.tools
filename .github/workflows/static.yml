@@ -31,6 +31,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Checkout submodules
+        run: git submodule update --init -- experiments rl-tools
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
