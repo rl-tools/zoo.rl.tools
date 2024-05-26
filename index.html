@@ -9,7 +9,7 @@
         const experiments_stub = "experiments/"
 
         import { Explorer } from "./rl-tools/static/extrack_ui/Explorer.js";
-        const explorer = new Explorer(experiments_stub);
+        const explorer = new Explorer(experiments_stub, {"verbose": false});
         const explorerContainer = document.getElementById('explorerContainer');
         explorerContainer.appendChild(explorer.getContainer());
 
