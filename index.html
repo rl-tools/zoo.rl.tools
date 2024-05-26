@@ -13,10 +13,21 @@
         const explorerContainer = document.getElementById('explorerContainer');
         explorerContainer.appendChild(explorer.getContainer());
 
+        fetch("./last_update.txt")
+            .then(response => response.text())
+            .then(text => {
+                const lastUpdate = document.getElementById('lastUpdate');
+                lastUpdate.innerHTML = text;
+                lastUpdate.style.display = 'block';
+            });
+
+
+
 
     </script>
 </head>
 <body>
+    <div id="lastUpdate" style="display: none"></div>
     <div id="explorerContainer"></div>
 </body>
 </html>
