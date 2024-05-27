@@ -6,12 +6,23 @@
     <title>RLtools Zoo</title>
     <link rel="stylesheet" href="./rl-tools/static/extrack_ui/index.css">
     <script type="module">
-        const experiments_stub = window.location.href + "/./experiments/"
+        const experiments_base_path = window.location.href + "/./experiments/"
 
+        // import { Explorer } from "./rl-tools/static/extrack_ui/Explorer.js";
+        // const explorer = new Explorer(experiments_stub, {"verbose": false});
+        // const explorerContainer = document.getElementById('explorerContainer');
+        // explorerContainer.appendChild(explorer.getContainer());
+
+        import { StaticFileSystem } from "./rl-tools/static/extrack_ui/StaticFileSystem.js";
+        import {Index} from "./rl-tools/static/extrack_ui/Index.js";
         import { Explorer } from "./rl-tools/static/extrack_ui/Explorer.js";
-        const explorer = new Explorer(experiments_stub, {"verbose": false});
+        const fs = new StaticFileSystem(experiments_base_path)
+        const idx = new Index(fs)
+
+        const explorer = new Explorer(experiments_base_path, idx, {"verbose": true})
         const explorerContainer = document.getElementById('explorerContainer');
         explorerContainer.appendChild(explorer.getContainer());
+
 
         fetch("./last_updated.txt")
             .then(response => {
