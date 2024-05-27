@@ -19,7 +19,7 @@
         const fs = new StaticFileSystem(experiments_base_path)
         const idx = new Index(fs)
 
-        const explorer = new Explorer(experiments_base_path, idx, {"verbose": true})
+        const explorer = new Explorer(experiments_base_path, idx, {"verbose": false})
         const explorerContainer = document.getElementById('explorerContainer');
         explorerContainer.appendChild(explorer.getContainer());
 
