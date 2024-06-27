@@ -22,7 +22,12 @@
 
         idx_promise.then(() => {
             const runs_with_ui = idx.run_list.filter(run => run.ui_jsm)
-            const runs_with_steps = runs_with_ui.filter(run => run.steps && Object.keys(run.steps).length > 0)
+            const runs_with_steps = runs_with_ui.filter((run) => {
+                if(run.steps && Object.keys(run.steps).length > 0){
+                    return Object.values(run.steps).some(step => step.trajectories_compressed)
+                }
+                return false
+            })
             const runs_zoo = runs_with_steps.filter(run => run.config.name === "zoo")
             const runs_by_population = group_by(runs_zoo, ["population_values"])
             const populations = Object.keys(runs_by_population)
