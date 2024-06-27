@@ -20,6 +20,11 @@
         window.idx = idx
         const idx_promise = idx.refresh()
 
+        const env_ranking = [
+            "acrobot-swingup-v0",
+            "bottleneck-v0",
+        ].reverse()
+
         idx_promise.then(() => {
             const runs_with_ui = idx.run_list.filter(run => run.ui_jsm)
             const runs_with_steps = runs_with_ui.filter((run) => {
@@ -34,7 +39,7 @@
             const populations_sorted = populations.sort((a, b) => {
                 const example_run_a = runs_by_population[a].items[0]
                 const example_run_b = runs_by_population[b].items[0]
-                return example_run_a.config.population.environment === "acrobot-swingup-v0" ? -1 : 1
+                return env_ranking.indexOf(example_run_b.config.population.environment) - env_ranking.indexOf(example_run_a.config.population.environment)
             })
             const container = document.getElementById('latest-zoo-runs-container')
             container.innerHTML = ""
