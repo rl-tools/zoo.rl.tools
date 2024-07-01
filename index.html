@@ -80,9 +80,12 @@
                 return response.text()
             })
             .then(text => {
+                const timestamp = text.trim();
+                const date = new Date(timestamp.replace(/ /, 'T').replace(/ /, ''));
+
                 const lastUpdate = document.getElementById('lastUpdate');
                 const lastUpdateContainer = document.getElementById('lastUpdateContainer');
-                lastUpdate.innerHTML = text;
+                lastUpdate.innerHTML = date.toString();
                 lastUpdateContainer.style.display = 'block';
             });
     </script>
