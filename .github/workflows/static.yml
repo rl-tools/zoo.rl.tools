@@ -39,7 +39,7 @@ jobs:
         working-directory: rl-tools/static/extrack_ui
         run: ./download_dependencies.sh
       - name: Generate Index
-        run: ./rl-tools/tools/index_experiments_static.sh experiments
+        run: ./rl-tools/tools/index_experiments.sh experiments
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
