@@ -32,7 +32,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Checkout submodules
-        run: git submodule update --init -- experiments rl-tools
+        run: git submodule update --init -- experiments
       - name: Add Update Timestamp
         run: git log -1 --format=%ci > last_updated.txt
       - name: Download Dependencies
