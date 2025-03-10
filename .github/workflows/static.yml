@@ -35,11 +35,8 @@ jobs:
         run: git submodule update --init -- experiments
       - name: Add Update Timestamp
         run: git log -1 --format=%ci > last_updated.txt
-      - name: Download Dependencies
-        working-directory: rl-tools/static/extrack_ui
-        run: ./download_dependencies.sh
       - name: Generate Index
-        run: ./rl-tools/tools/index_experiments.sh experiments
+        run: ./index_experiments.sh experiments
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
