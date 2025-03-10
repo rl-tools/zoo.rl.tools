@@ -4,24 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RLtools Zoo</title>
-    <link rel="stylesheet" href="./rl-tools/static/extrack_ui/index.css">
+    <link rel="stylesheet" href="./extrack_ui/index.css">
     <script type="importmap">
         {
             "imports": {
-                "three": "./rl-tools/static/extrack_ui/lib/three.js",
-                "three-orbitcontrols": "./rl-tools/static/extrack_ui/lib/three.js",
-                "chart.js": "./rl-tools/static/extrack_ui/lib/chart.js",
-                "pako": "./rl-tools/static/extrack_ui/lib/dependencies.js"
+                "three": "./extrack_ui/lib/three.js",
+                "three-orbitcontrols": "./extrack_ui/lib/three.js",
+                "chart.js": "./extrack_ui/lib/chart.js",
+                "pako": "./extrack_ui/lib/dependencies.js"
             }
         }
     </script>
     <script type="module">
         const experiments_base_path = "/./experiments/"
 
-        import { StaticFileSystem } from "./rl-tools/static/extrack_ui/StaticFileSystem.js";
+        import { StaticFileSystem } from "./extrack_ui/StaticFileSystem.js";
 
-        import { Index, group_by} from "./rl-tools/static/extrack_ui/Index.js";
-        import { ShowRun } from "/rl-tools/static/extrack_ui/ShowRun.js";
+        import { Index, group_by} from "./extrack_ui/Index.js";
+        import { ShowRun } from "./extrack_ui/ShowRun.js";
 
 
         window.group_by = group_by // make available in the developer console
@@ -72,12 +72,12 @@
 
 
 
-        import { Explorer } from "./rl-tools/static/extrack_ui/Explorer.js";
+        import { Explorer } from "./extrack_ui/Explorer.js";
         const explorer = new Explorer(experiments_base_path, idx, {"verbose": true})
         const explorerContainer = document.getElementById('explorer-container');
         explorerContainer.appendChild(explorer.getContainer());
 
-        import { Zoo } from "./rl-tools/static/extrack_ui/Zoo.js";
+        import { Zoo } from "./extrack_ui/Zoo.js";
         const zoo = new Zoo(experiments_base_path, idx, {"verbose": true})
         const zooContainer = document.getElementById('zoo-container');
         zooContainer.appendChild(zoo.getContainer());
