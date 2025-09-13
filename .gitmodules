@@ -6,6 +6,3 @@
 	path = rl-tools
 	url = https://github.com/rl-tools/rl-tools.git
 	branch = master
-[submodule "extrack_ui/lib"]
-	path = extrack_ui/lib
-	url = https://github.com/rl-tools/extrack-ui-lib.git
