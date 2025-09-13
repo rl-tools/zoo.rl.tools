@@ -32,7 +32,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Checkout submodules
-        run: git submodule update --init -- experiments extrack_ui/lib
+        run: git submodule update --init -- experiments rl-tools
+      - name: Checkout submodules
+        run: git submodule update --init -- rl-tools/static/extrack_ui/lib
       - name: Add Update Timestamp
         run: git log -1 --format=%ci > last_updated.txt
       - name: Generate Index
