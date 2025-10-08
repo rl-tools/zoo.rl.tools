@@ -16,17 +16,27 @@
         }
     </script>
     <script type="module">
-        const experiments_base_path = "/./runs/curated/experiments/"
+        const curated_base_path = "/./runs/curated/experiments/"
+        const ci_base_path = "/./runs/ci/experiments/"
 
         import { StaticFileSystem } from "./rl-tools/static/extrack_ui/StaticFileSystem.js";
 
-        import { Index, group_by} from "./rl-tools/static/extrack_ui/Index.js";
+        import { group_by} from "./rl-tools/static/extrack_ui/Index.js";
+        import { MultiSourceIndex } from "./rl-tools/static/extrack_ui/MultiSourceIndex.js";
         import { ShowRun } from "./rl-tools/static/extrack_ui/ShowRun.js";
 
 
         window.group_by = group_by // make available in the developer console
-        const fs = new StaticFileSystem(experiments_base_path)
-        const idx = new Index(fs)
+        
+        // Create file systems for both curated and CI runs
+        const fs_curated = new StaticFileSystem(curated_base_path)
+        const fs_ci = new StaticFileSystem(ci_base_path)
+        
+        // Create multi-source index
+        const idx = new MultiSourceIndex([
+            { fs: fs_curated, label: "curated" },
+            { fs: fs_ci, label: "ci" }
+        ])
         window.idx = idx
         const idx_promise = idx.refresh()
 
@@ -45,7 +55,28 @@
                 return false
             })
             const runs_zoo = runs_with_steps.filter(run => run.config.name === "zoo")
-            const runs_by_population = group_by(runs_zoo, ["population_values"])
+            
+            // Group by actual population configuration (algorithm + environment)
+            // rather than path-based population_values to avoid duplicates across sources
+            // Use a canonical key format to handle different key orders in population object
+            const runs_by_population = {}
+            for(const run of runs_zoo){
+                const pop = run.config.population
+                // Create canonical key: always use algorithm_environment order
+                const key = `${pop.algorithm || 'unknown'}_${pop.environment || 'unknown'}`
+                if(!(key in runs_by_population)){
+                    runs_by_population[key] = {
+                        population: run.config.population,
+                        items: []
+                    }
+                }
+                runs_by_population[key].items.push(run)
+            }
+            // For each group, keep only the most recent run (already sorted by MultiSourceIndex)
+            for(const key in runs_by_population){
+                runs_by_population[key].items = [runs_by_population[key].items[0]]
+            }
+            
             const populations = Object.keys(runs_by_population)
             const populations_sorted = populations.sort((a, b) => {
                 const example_run_a = runs_by_population[a].items[0]
@@ -73,12 +104,12 @@
 
 
         import { Explorer } from "./rl-tools/static/extrack_ui/Explorer.js";
-        const explorer = new Explorer(experiments_base_path, idx, {"verbose": true})
+        const explorer = new Explorer(idx, {"verbose": true})
         const explorerContainer = document.getElementById('explorer-container');
         explorerContainer.appendChild(explorer.getContainer());
 
         import { Zoo } from "./rl-tools/static/extrack_ui/Zoo.js";
-        const zoo = new Zoo(experiments_base_path, idx, {"verbose": true})
+        const zoo = new Zoo(idx, {"verbose": true})
         const zooContainer = document.getElementById('zoo-container');
         zooContainer.appendChild(zoo.getContainer());
 
