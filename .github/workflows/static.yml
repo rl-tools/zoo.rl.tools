@@ -37,8 +37,10 @@ jobs:
         run: ./rl-tools/static/extrack_ui/download_dependencies.sh
       - name: Add Update Timestamp
         run: git log -1 --format=%ci > last_updated.txt
-      - name: Generate Index
-        run: ./index_experiments.sh experiments
+      - name: Generate Index (Curated)
+        run: ./index_experiments.sh runs/curated
+      - name: Generate Index (CI)
+        run: ./index_experiments.sh runs/ci
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
