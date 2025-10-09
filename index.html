@@ -103,10 +103,10 @@
 
 
 
-        import { Explorer } from "./rl-tools/static/extrack_ui/Explorer.js";
-        const explorer = new Explorer(idx, {"verbose": true})
+        import { TableExplorer } from "./rl-tools/static/extrack_ui/TableExplorer.js";
+        const tableExplorer = new TableExplorer(idx, {"verbose": true})
         const explorerContainer = document.getElementById('explorer-container');
-        explorerContainer.appendChild(explorer.getContainer());
+        explorerContainer.appendChild(tableExplorer.getContainer());
 
         import { Zoo } from "./rl-tools/static/extrack_ui/Zoo.js";
         const zoo = new Zoo(idx, {"verbose": true})

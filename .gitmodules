@@ -1,11 +1,11 @@
-[submodule "experiments"]
-	path = runs/ci
-	url = https://github.com/rl-tools/zoo-blob.git
-	branch = main
 [submodule "rl-tools"]
 	path = rl-tools
 	url = https://github.com/rl-tools/rl-tools.git
 	branch = master
+[submodule "runs/ci"]
+	path = runs/ci
+	url = https://github.com/rl-tools/zoo-runs-ci.git
+	branch = main
 [submodule "runs/curated"]
 	path = runs/curated
 	url = https://github.com/rl-tools/zoo-runs-curated.git

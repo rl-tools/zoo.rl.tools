@@ -37,6 +37,8 @@ jobs:
         run: ./rl-tools/static/extrack_ui/download_dependencies.sh
       - name: Add Update Timestamp
         run: git log -1 --format=%ci > last_updated.txt
+      - name: Generate Commit Messages
+        run: ./generate_commit_messages.sh
       - name: Generate Index (Curated)
         run: ./index_experiments.sh runs/curated
       - name: Generate Index (CI)
