@@ -124,19 +124,41 @@
             
             // Wait for table to initialize and set default selections
             tableExplorer.initialized.then(() => {
-                // Select last curated group and last 3 CI groups (all seeds in each group)
+                // For each algorithm-environment pair, select:
+                // - Most recent curated run (if exists)
+                // - 3 most recent CI runs (if exist)
                 const allGroups = tableExplorer.groupedRuns;
-                const curatedGroups = allGroups.filter(g => g.source === 'curated');
-                const ciGroups = allGroups.filter(g => g.source === 'ci');
                 
-                // Flatten to get individual runs from selected groups
-                const defaultGroups = [
-                    ...(curatedGroups.length > 0 ? [curatedGroups[0]] : []),
-                    ...ciGroups.slice(0, 3)
-                ];
+                // Group by algorithm-environment pair
+                const algoEnvPairs = {};
+                for (const group of allGroups) {
+                    const key = `${group.algorithm}_${group.environment}`;
+                    if (!algoEnvPairs[key]) {
+                        algoEnvPairs[key] = {
+                            curated: [],
+                            ci: []
+                        };
+                    }
+                    if (group.source === 'curated') {
+                        algoEnvPairs[key].curated.push(group);
+                    } else if (group.source === 'ci') {
+                        algoEnvPairs[key].ci.push(group);
+                    }
+                }
                 
-                // Extract all individual runs from these groups
-                const defaultSelections = defaultGroups.flatMap(g => g.runs);
+                // For each pair, select the most recent runs
+                const selectedGroups = [];
+                for (const [key, groups] of Object.entries(algoEnvPairs)) {
+                    // Add most recent curated run
+                    if (groups.curated.length > 0) {
+                        selectedGroups.push(groups.curated[0]);
+                    }
+                    // Add 3 most recent CI runs
+                    selectedGroups.push(...groups.ci.slice(0, 3));
+                }
+                
+                // Extract all individual runs from selected groups
+                const defaultSelections = selectedGroups.flatMap(g => g.runs);
                 
                 if (defaultSelections.length > 0) {
                     tableExplorer.setSelectedRuns(defaultSelections);
