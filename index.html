@@ -124,15 +124,19 @@
             
             // Wait for table to initialize and set default selections
             tableExplorer.initialized.then(() => {
-                // Select last curated run and last 3 CI runs
-                const allRuns = tableExplorer.runs;
-                const curatedRuns = allRuns.filter(r => r.source === 'curated');
-                const ciRuns = allRuns.filter(r => r.source === 'ci');
+                // Select last curated group and last 3 CI groups (all seeds in each group)
+                const allGroups = tableExplorer.groupedRuns;
+                const curatedGroups = allGroups.filter(g => g.source === 'curated');
+                const ciGroups = allGroups.filter(g => g.source === 'ci');
                 
-                const defaultSelections = [
-                    ...(curatedRuns.length > 0 ? [curatedRuns[0]] : []),
-                    ...ciRuns.slice(0, 3)
+                // Flatten to get individual runs from selected groups
+                const defaultGroups = [
+                    ...(curatedGroups.length > 0 ? [curatedGroups[0]] : []),
+                    ...ciGroups.slice(0, 3)
                 ];
+                
+                // Extract all individual runs from these groups
+                const defaultSelections = defaultGroups.flatMap(g => g.runs);
                 
                 if (defaultSelections.length > 0) {
                     tableExplorer.setSelectedRuns(defaultSelections);
