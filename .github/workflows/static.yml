@@ -40,9 +40,9 @@ jobs:
       - name: Generate Commit Messages
         run: ./generate_commit_messages.sh
       - name: Generate Index (Curated)
-        run: ./index_experiments.sh runs/curated
+        run: ./index_experiments.sh runs/curated/experiments
       - name: Generate Index (CI)
-        run: ./index_experiments.sh runs/ci
+        run: ./index_experiments.sh runs/ci/experiments
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
