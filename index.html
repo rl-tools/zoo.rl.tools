@@ -104,14 +104,41 @@
 
 
         import { TableExplorer } from "./rl-tools/static/extrack_ui/TableExplorer.js";
-        const tableExplorer = new TableExplorer(idx, {"verbose": true})
-        const explorerContainer = document.getElementById('explorer-container');
-        explorerContainer.appendChild(tableExplorer.getContainer());
-
         import { Zoo } from "./rl-tools/static/extrack_ui/Zoo.js";
-        const zoo = new Zoo(idx, {"verbose": true})
-        const zooContainer = document.getElementById('zoo-container');
-        zooContainer.appendChild(zoo.getContainer());
+        
+        // Wait for index to load before creating components
+        idx_promise.then(() => {
+            // Create Zoo first with empty selection
+            const zoo = new Zoo([]);
+            const zooContainer = document.getElementById('zoo-container');
+            zooContainer.appendChild(zoo.getContainer());
+            
+            // Create TableExplorer with callback to update Zoo
+            const tableExplorer = new TableExplorer(idx, {
+                onSelectionChange: (selectedRuns) => {
+                    zoo.updateRuns(selectedRuns);
+                }
+            });
+            const explorerContainer = document.getElementById('explorer-container');
+            explorerContainer.appendChild(tableExplorer.getContainer());
+            
+            // Wait for table to initialize and set default selections
+            tableExplorer.initialized.then(() => {
+                // Select last curated run and last 3 CI runs
+                const allRuns = tableExplorer.runs;
+                const curatedRuns = allRuns.filter(r => r.source === 'curated');
+                const ciRuns = allRuns.filter(r => r.source === 'ci');
+                
+                const defaultSelections = [
+                    ...(curatedRuns.length > 0 ? [curatedRuns[0]] : []),
+                    ...ciRuns.slice(0, 3)
+                ];
+                
+                if (defaultSelections.length > 0) {
+                    tableExplorer.setSelectedRuns(defaultSelections);
+                }
+            });
+        });
 
 
         fetch("./last_updated.txt")
